@@ -1,0 +1,83 @@
+{% extends "base_nav.html" %}
+{% load static %}
+{% block content %}
+    <div class="container-fluid bg-light" style='height:90%;'>
+        <div class="row" style="height:100%;">
+            <div class="col-12 bg-dark">
+                <form id='query_tab' method='GET' action="{% url 'conclude' %}" style='margin:0%;'>
+                <div class="row text-center" style="height:10%;">
+                    <button type='submit' name='submit_btn' value='daily' class="col-3 btn {% if submit_btn == 'daily' %} btn-light {% else %} btn-outline-secondary {% endif %}">
+                        <h1>DAILY</h1>
+                    </button>
+                    <button type='submit' name='submit_btn' value='weekly' class="col-3 btn {% if submit_btn == 'weekly' %} btn-light {% else %} btn-outline-secondary {% endif %}">
+                        <h1>WEEKLY</h1>
+                    </button>
+                    <button type='submit' name='submit_btn' value='monthly' class="col-3 btn {% if submit_btn == 'monthly' %} btn-light {% else %} btn-outline-secondary {% endif %}">
+                        <h1>MONTHLY</h1>
+                    </button>
+                    <button type='submit' name="submit_btn" value="yearly" class="col-3 btn {% if submit_btn == 'yearly' %} btn-light {% else %} btn-outline-secondary {% endif %}">
+                        <h1>YEARLY</h1>
+                    </button>
+                </div>
+                </form>
+                <div class="row" style="height:90%;">
+                    <div class='col-12 bg-secondary'>
+                        <div class='row bg-light m-4 rounded' style="height:90%;overflow:auto;">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                    {% for n in report_scope %}
+                                        <th>{{ n }}</th>
+                                    {% endfor %}  
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if year_income %}
+                                    {% for y in year_income %}
+                                    <tr>
+                                        {% for yvalue in y %}
+                                        <td>{{ yvalue }}</td>
+                                    {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                    {% if month_income %}
+                                    {% for m in month_income %}
+                                    <tr>
+                                    {% for mvalue in m %}
+                                        <td>{{ mvalue }}</td>
+                                    {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                    {% if week_income %}
+                                    {% for w in week_income %}
+                                    <tr>
+                                    {% for wvalue in w %}
+                                        <td>{{ wvalue }}</td>
+                                    {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+
+                                    {% if day_income %}
+                                    {% for d in day_income %}
+                                    <tr>
+                                    {% for dvalue in d %}
+                                        <td>{{ dvalue }}</td>
+                                    {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+{% endblock %}

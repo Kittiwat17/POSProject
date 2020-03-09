@@ -1,0 +1,78 @@
+{% extends "base_productlist.html" %}
+{% load static %}
+{% block url %}
+{% url 'index' %}
+{% endblock %}
+{% block product_list %}
+        
+        {% for pro in product %}   
+            <div class="row bg-primary mw-60 pl-2 pr-2 pb-0 pt-0 m-2 rounded" style="width:98%;height:5vh;">
+
+                <div class="col-4 border-right text-center pt-2 text-break" style="height:5vh;overflow: auto;">
+                    <h6>{{ pro.name }}</h6>
+                </div>
+                <div class="col-4 border-right text-center pt-2 text-break" style="height:5vh;overflow: auto;">
+                    <h6>{{ pro.type.name }}</h6>
+                </div>
+                <div class="col-2 text-center pt-2" style="height:5vh;overflow: auto;">
+                    <h6>{{ pro.price }}฿</h6>
+                </div>
+                <div class="col-1 text-center pt-2" style="overflow: auto;">
+                    {% if pro.amount == 0 %}
+                        <h6 style="color:red;">หมด</h6>
+                    {% else %}
+                        <h6>{{ pro.amount}}</h6>
+                    {% endif %}
+                </div>
+                <div class="col-1 text-center pt-1 pl-0 pr-0">
+               
+                <button name="submit_btn" value="A{{ pro.id }}" form="search" class="p-1 mt-1 mb-0.5 rounded btn-success" style="font-size:0.2em;" >add to cart</button>
+                
+                </div>
+            </div>
+     
+        {% endfor %}  
+     
+{% endblock %}
+
+
+            <!-- รายการสินค้าที่หา -->
+{% block cart_list %}
+    <div class="row text-center bg-warning mv-100 p-2 m-0 rounded " style="height:8vh;">
+            <div class="text-center" style="width:100%;">
+                <h3>Cart</h3>
+            </div>
+        </div>
+    <div class="container bg-light mh-94 p-2 mt-2 mb-1 rounded" style="height:60vh;overflow: auto;width:96%;">
+            {% for ord in order_product %}
+            <div class="row bg-primary mw-60 pl-2 pr-2 pb-0 pt-0 m-2 rounded" style="width:98%;height:5vh;">
+
+                <div class="col-4 border-right text-center pt-2 text-break" style="height:5vh;overflow: auto;">
+                    <h6>{{ ord.amount }}</h6>
+                </div>
+
+                <div class="col-4 border-right text-center pt-2 text-break" style="height:5vh;overflow: auto;">
+                    <h6>{{ ord.product_id.name }}</h6>
+                </div>
+
+                <div class="col-2 text-center pt-2" style="height:5vh;overflow: auto;">
+                    <h6>{{ ord.price }}฿</h6>
+                </div>
+                <div class="col-1 text-center pt-1 pl-0 pr-0">
+                    <button name="submit_btn" value="R{{ ord.product_id.id }}" form="search" class="p-1 mt-1 mb-0.5 rounded btn-success" style="font-size:0.5em;">－</button>
+                </div>
+                <div class="col-1 text-center pt-1 pl-0 pr-0">
+                    <button name="submit_btn" value="R{{ ord.product_id.id }}A" form="search" class="p-1 mt-1 mb-0.5 rounded btn-success" style="font-size:0.5em;">all</button>
+                </div>
+            </div>
+            
+            {% endfor %}
+    </div>
+    <div>
+        <div>TOTAL</div>
+        <div>:</div>
+        <div>{{ prices }}</div>
+    </div>
+    <button name="submit_btn" form="search" value="sale">SALE</button>
+    <button name="submit_btn" form="search" value="clear_cart">CLEAR CART</button>
+{% endblock %}

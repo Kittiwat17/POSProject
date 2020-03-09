@@ -1,0 +1,59 @@
+{% extends "base_nav.html" %}
+{% load static %}
+{% block content %}
+<div class="row m-0 p-0 mw-100" style="height:93vh;">
+
+    <div class="col-8 bg-secondary mw-70 p-1 m-0 h-100">
+        
+
+        <div class="row bg-warning mw-94 mh-94 p-2 m-3 rounded">
+            <form id="search" class="form-inline W-100" method="GET" action="{% block url %}{% endblock %}">
+                <input class="form-control mr-2" style="width:37%;" type="search" Name="searchN" placeholder="Product_Name"  value="{{ searchN }}">
+                {% comment %} <input class="form-control mr-2" style="width:37%;" type="search" Name="searchT" placeholder="Type_Name"  value="{{ searchT }}"> {% endcomment %}
+                <select  class='form-control' name='searchT'>
+                {% for t in typelist %}
+                    <option {% if searchT == t.name %}selected{% endif %}>{{ t.name }}</option>
+                {% endfor %}
+                </select>
+                <button class="btn btn-outline-success mr-2 my-2 my-sm-0 w-10" type="submit" Name="submit_btn" value="search" >Search</button>
+                <button class="btn btn-success my-2 my-sm-0 w-10" type="submit" Name="submit_btn" value='all' >All Product</button>
+            </form>
+        </div>
+
+        <div class="row bg-light mw-94 pl-3 pr-3 pt-1 mr-3 ml-3 mb-1 rounded" style="height:6vh;">
+            <div class="row  mw-94 pl-2 pr-2 pb-0 pt-0 m-0 rounded" style="width:96vw;height:3vh;">
+
+                <div class="col-5 border-right text-center pt-1">
+                    <h5>Product Name</h5>
+                </div>
+                <div class="col-4 border-right text-center pt-1">
+                    <h5>Product Type</h5>
+                </div>
+                <div class="col-2 text-center pt-1">
+                    <h5>Price</h5>
+                </div>
+            </div>
+        </div>
+        <div class="container bg-light mh-94 p-2 mr-3 ml-3 mb-1 rounded" style="height:63vh;overflow: auto;width:96%;">
+        {% block product_list %}
+        {% endblock %}
+
+            <!-- รายการสินค้าที่หา -->
+
+        </div>
+    </div>
+
+    <div class="col-4 bg-dark w-100 p-3 m-0 h-100">
+        
+        
+        
+        {% block cart_list %}
+        {% endblock %}
+          
+            <!-- แสดงรายการสินค้าในตะกร้า -->
+
+        
+        
+    </div>
+</div>
+{% endblock %}

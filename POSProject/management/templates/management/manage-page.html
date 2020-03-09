@@ -1,0 +1,107 @@
+{% extends "base_productlist.html" %}
+{% load static %}
+{% block url %}
+{% url 'manage' %}
+{% endblock %}
+{% block product_list %}
+<script language="javascript">
+    function submitForms(){
+        document.getElementById("search").submit();
+    }
+</script>
+        
+        {% for pro in product %}   
+            <div class="row bg-primary mw-60 pl-2 pr-2 pb-0 pt-0 m-2 rounded" style="width:98%;height:5vh;">
+
+                <div class="col-4 border-right text-center pt-2 text-break" style="height:5vh;overflow: auto;">
+                    <h6>{{ pro.name }}</h6>
+                </div>
+                <div class="col-4 border-right text-center pt-2 text-break" style="height:5vh;overflow: auto;">
+                    <h6>{{ pro.type.name }}</h6>
+                </div>
+                <div class="col-2 text-center pt-2" style="height:5vh;overflow: auto;">
+                    <h6>{{ pro.price }}฿</h6>
+                </div>
+                <div class="col-1 text-center pt-2" style="overflow: auto;">
+                    {% if pro.amount == 0 %}
+                        <h6 style="color:red;">หมด</h6>
+                    {% else %}
+                        <h6>{{ pro.amount}}</h6>
+                    {% endif %}
+                </div>
+                <div class="col-1 text-center pt-1 pl-0 pr-0">
+                <button name="submit_btn" value="E{{ pro.id }}" form="search" class="p-1 mt-1 mb-0.5 rounded btn-warning" style="font-size:0.2em;" >edit</button>
+                <button name="submit_btn" value="R{{ pro.id }}" form="search" class="p-1 mt-1 mb-0.5 rounded btn-danger" style="font-size:0.2em;" >remove</button>
+                
+                </div>
+            </div>
+     
+        {% endfor %}  
+     
+{% endblock %}
+
+
+            <!-- รายการสินค้าที่หา -->
+{% block cart_list %}
+    <div class="container bg-light mh-94 p-2 mt-2 mb-1 rounded" style="height:70vh;overflow: auto;width:96%;">
+        {% if editP %}
+            <form id='editProduct' method='GET' action="{% url 'manage' %}">
+            <input name='productIE' value='{{ editProduct.id }}' readonly>
+            <div class='form-group'>
+                <input  class="form-control mr-2" style="width:37%;" type="text" Name="productNE" placeholder="Product_Name"  value="{{ editProduct.name }}" required>
+                <input  class="form-control mr-2" style="width:37%;" type="text" Name="productDE" placeholder="description"  value="{{ editProduct.description }}" required>
+                <select  class='form-control' name='productTE'>
+                {% for t in typelist %}
+                    <option {% if editProduct.type_id.name == t.name %}selected{% endif %}>{{ t.name }}</option>
+                {% endfor %}
+                </select>
+                <input  class="form-control mr-2" style="width:37%;" type="number" Name="productPE" placeholder="price" min="0"  value="{{ editProduct.price }}" required>
+                <input  class="form-control mr-2" style="width:37%;" type="number" Name="productAE" placeholder="amount" min="0"  value="{{ editProduct.amount }}" required>
+                
+            </div>
+            <button onclick="submitForms()" name="submit_btn" value="edit_product">EDIT PRODUCT</button>
+        </form>
+        {% endif %}
+        <form id='addProduct' method='GET' action="{% url 'manage' %}">
+            <div class='form-group'>
+                <input  class="form-control mr-2" style="width:37%;" type="text" Name="productN" placeholder="Product_Name"  value="{{ productN }}" required>
+                <input  class="form-control mr-2" style="width:37%;" type="text" Name="productD" placeholder="description"  value="{{ productD }}" required>
+                <select  class='form-control' name='productT'>
+                {% for t in typelist %}
+                    <option {% if productT == t.name %}selected{% endif %}>{{ t.name }}</option>
+                {% endfor %}
+                </select>
+                <input  class="form-control mr-2" style="width:37%;" type="number" Name="productP" placeholder="price" min="0"  value="{{ productP }}" required>
+                <input  class="form-control mr-2" style="width:37%;" type="number" Name="productA" placeholder="amount" min="0"  value="{{ productA }}" required>
+                
+            </div>
+            <button onclick="submitForms()" name="submit_btn" value="add_product">ADD PRODUCT</button>
+        </form>
+        <form id='addType' method='GET' action="{% url 'manage' %}">
+            <div class='form-group'>
+                <input  class="form-control mr-2" style="width:37%;" type="text" Name="typeN" placeholder="Type_Name"  value="{{ typeN }}" required>
+                <input  class="form-control mr-2" style="width:37%;" type="text" Name="typeD" placeholder="description"  value="{{ typeD }}" required>
+            </div>  
+            <button onclick="submitForms()" name="submit_btn" value="add_type">ADD TYPE</button>
+        </form>
+        <form id='deleteType' method='GET' action="{% url 'manage' %}">
+            <div class='form-group'>
+                <select  class='form-control' name='typeND'>
+                {% for t in typelist %}
+                    <option {% if typeND == t.name %}selected{% endif %}>{{ t.name }}</option>
+                {% endfor %}
+                </select>
+                {% if editT %}
+                    <input  class="form-control mr-2" style="width:37%;" type="text" Name="typeNE" placeholder="Type_Name"  value="{{ typeEdit.name }}" required>
+                    <input  class="form-control mr-2" style="width:37%;" type="text" Name="typeDE" placeholder="description"  value="{{ typeDEdit.description }}" required>
+                {% endif %}
+            </div>  
+            <button onclick="submitForms()" name="submit_btn" value="delete_type">DELETE TYPE</button>
+            <button onclick="submitForms()" name="submit_btn" value="edit_type">EDIT TYPE</button>
+        </form>
+        
+        
+    </div>
+    
+    
+{% endblock %}
